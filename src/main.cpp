@@ -14,8 +14,7 @@ void RenderFrame(float dt);
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 576
 
-// Street texture
-Sprite street;
+Sprite floorTile;
 
 //=============================================================================
 int main(int argc, char* argv[])
@@ -25,17 +24,17 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	if (!CreateWindow("The Game", WINDOW_WIDTH, WINDOW_HEIGHT))
+	if (!CreateWindow("The Puzzle Game", WINDOW_WIDTH, WINDOW_HEIGHT))
 	{
 		return 1;
 	}
 
-	street = LoadSprite("assets/cyberpunk-street.png");
+	floorTile = LoadSprite("assets/floorTile01.png");
 
 	// Push functions to the game loop
 	StartLoop(Update, RenderFrame);
 
-	FreeSprite(street);
+	FreeSprite(floorTile);
 	CleanUp();
 	return 0;
 }
@@ -56,13 +55,18 @@ void RenderFrame(float interpolation)
 	SDL_SetRenderDrawColor(gRenderer, 65, 105, 225, 255);
 	SDL_RenderClear(gRenderer);
 
-	// Draw sprite (scaled by factor of 3)
-	int pixelAmp = 3;
-	SDL_Rect backgroundRect = {
-		0,
-		0,
-		street.sourceRect.w * pixelAmp,
-		street.sourceRect.h * pixelAmp
-	};
-	SDL_RenderCopy(gRenderer, street.texture, NULL, &backgroundRect);
+	// Render 8x8 floor piece
+	for (int y = 0; y < 8; ++y)
+	{
+		for (int x = 0; x < 8; ++x)
+		{
+			SDL_Rect tileRect = {
+				x * floorTile.sourceRect.w,
+				y * floorTile.sourceRect.h,
+				floorTile.sourceRect.w,
+				floorTile.sourceRect.h
+			};
+			SDL_RenderCopy(gRenderer, floorTile.texture, NULL, &tileRect);
+		}
+	}
 }
