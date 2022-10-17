@@ -31,9 +31,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 if (MSVC)
-	add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
+	add_executable(${PROJECT_NAME} ${SOURCES})
 	# warning level 3
-	target_compile_options(${PROJECT_NAME} PRIVATE /W3)
+	target_compile_options(${PROJECT_NAME} PRIVATE /W4)
 
 	list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/sdl2)
 
